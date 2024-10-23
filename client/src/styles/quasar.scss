@@ -1,0 +1,28 @@
+.q-item {
+  --at-apply: py-2 px-4 min-h-9;
+
+  &:hover {
+    background: var(--c-grey-100);
+  }
+
+  .q-focus-helper {
+    opacity: 0.08 !important;
+  }
+}
+
+.q-dialog-plugin {
+  padding: 0 8px;
+  border-radius: 12px !important;
+
+  .q-dialog__title{
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+
+  .q-dialog__message {
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0 16px;
+  }
+}

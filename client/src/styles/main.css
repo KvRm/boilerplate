@@ -1,0 +1,159 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/fonts/Inter_24pt-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url(/fonts/Inter_24pt-Medium.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url(/fonts/Inter_24pt-ExtraBold.ttf) format('truetype');
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* html.dark {
+  background: #121212;
+  color-scheme: dark;
+} */
+
+::-moz-selection {
+  background: var(--c-blue-200);
+}
+
+::selection {
+  background: var(--c-blue-200);
+}
+
+#app {
+  overflow: hidden;
+}
+body {
+  -webkit-tap-highlight-color: transparent;
+  font-family: Inter;
+  color: var(--c-black);
+  font-size: 16px;
+}
+
+a {
+  color: var(--c-primary);
+}
+
+.box-shadow-popup {
+  box-shadow: 0px 0px 20px 0px rgba(138, 144, 157, 0.25);
+}
+.box-shadow-side-panel {
+  box-shadow: 0px 20px 20px 0px rgba(138, 144, 157, 0.25);
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.skeleton-loading-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(181, 184, 200, 0.2) 25%,
+    rgba(146, 150, 166, 0.24) 37%,
+    rgba(181, 184, 200, 0.2) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0 50%;
+  }
+}
+
+.vue-recycle-scroller__item-wrapper {
+  overflow: visible;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: var(--c-blue-300);
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+}
+
+/* TRANSITIONS */
+.fade-leave-active {
+  transition: all 0.2s ;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 0.2s ;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+
+.slide-right-leave-active {
+  position: absolute;
+  transition: all 0.2s ;
+}
+.slide-right-leave-to {
+  position: absolute;
+  transform: translate(100%, 0);
+}
+
+.slide-right-enter-active {
+  position: absolute;
+  transition: all 0.2s ;
+}
+.slide-right-enter-from {
+  position: absolute;
+  transform: translate(100%, 0);
+}
+
+
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-thumb {
+  border: 4px solid white;
+  border-radius: 8px;
+  background: var(--c-grey-400);
+}
+::-webkit-scrollbar-thumb:hover {
+  border: 2px solid white;
+  border-radius: 8px;
+}

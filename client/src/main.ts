@@ -1,44 +1,46 @@
-import { createPinia } from 'pinia'
-import { Dialog, Quasar } from 'quasar'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia } from "pinia";
+import { Dialog, Quasar } from "quasar";
+import { createRouter, createWebHistory } from "vue-router";
 
-import { VueQueryPlugin } from '@tanstack/vue-query'
-import App from './App.vue'
-import { routes } from './router'
+import { VueQueryPlugin } from "@tanstack/vue-query";
+import App from "./App.vue";
+import { routes } from "./router";
 
-import { setupNprogress } from '~/modules/nprogress'
-import { setupPwa } from '~/modules/pwa'
-import { vueQueryPluginOptions } from '~/modules/vue-query'
+import { setupNprogress } from "~/modules/nprogress";
+import { setupPwa } from "~/modules/pwa";
+import { vueQueryPluginOptions } from "~/modules/vue-query";
 
-import '@quasar/extras/material-icons/material-icons.css'
-import '@unocss/reset/tailwind.css'
-import 'quasar/src/css/index.sass'
-import 'uno.css'
-import '@vue-flow/core/dist/style.css'
-import '@vue-flow/core/dist/theme-default.css'
-import './styles/main.css'
-import './styles/quasar.scss'
-import './styles/vars.css'
+import "@quasar/extras/material-icons/material-icons.css";
+import "@unocss/reset/tailwind.css";
+import "quasar/src/css/index.sass";
+import "uno.css";
+import "@vue-flow/core/dist/style.css";
+import "@vue-flow/core/dist/theme-default.css";
+import "./styles/main.css";
+import "./styles/quasar.scss";
+import "./styles/vars.css";
 
-const app = createApp(App)
+const app = createApp(App);
 
 const router = createRouter({
   routes,
   history: createWebHistory(import.meta.env.BASE_URL),
-})
+});
 
-const pinia = createPinia()
+const pinia = createPinia();
 
-setupNprogress(router)
+setupNprogress(router);
 
-setupPwa(router)
+setupPwa(router);
 
-app.use(VueQueryPlugin, vueQueryPluginOptions)
+app.use(VueQueryPlugin, vueQueryPluginOptions);
 
-app.use(Quasar, { plugins: { Dialog } })
+app.use(Quasar, { plugins: { Dialog } });
 
-app.use(router)
+app.use(router);
 
-app.use(pinia)
+app.use(pinia);
 
-app.mount('#app')
+app.mount("#app");
+
+console.log("1");

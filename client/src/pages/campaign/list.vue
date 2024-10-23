@@ -13,6 +13,7 @@ const columns: UiTableColumn[] = [
   { name: 'author', label: 'Автор', width: 244 },
 ]
 const rows = [
+  { id: '212', name: 'Продай Халву коту', createdAt: new Date(), updatedAt: new Date(), executedAt: new Date(), authorId: 'Иванов И.И.' },
   { id: '213', name: 'Вклад для котов', createdAt: new Date(), updatedAt: new Date(), executedAt: new Date(), authorId: 'Иванов И.И.' },
   { id: '214', name: 'Берем кредиты мы в совкомбанке', createdAt: new Date(), updatedAt: new Date(), authorId: 'Иванов И.И.' },
 ]

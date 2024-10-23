@@ -43,6 +43,7 @@ jobs:
           npm ci
       - name: Build the app
         run: |
+          cd ./client
           npm run build
 
       - name: Setup Pages

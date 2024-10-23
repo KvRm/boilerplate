@@ -9,6 +9,8 @@ import Unocss from 'unocss/vite'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 export default defineConfig({
+  base: '/boilerplate',
+
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,

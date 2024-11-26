@@ -14,8 +14,10 @@ declare global {
   const URL_PARAMS_KEYS: typeof import('./constants/url')['URL_PARAMS_KEYS']
   const URL_QUERY_KEYS: typeof import('./constants/url')['URL_QUERY_KEYS']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
+  const apiClient: typeof import('./services/api-client')['apiClient']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
+  const axiosInstance: typeof import('./services/api-client')['axiosInstance']
   const campaignRoutes: typeof import('./router/campaign/index')['campaignRoutes']
   const clone: typeof import('./utils/clone')['clone']
   const colors: typeof import('./constants/presets')['colors']
@@ -28,6 +30,7 @@ declare global {
   const controlledComputed: typeof import('@vueuse/core')['controlledComputed']
   const controlledRef: typeof import('@vueuse/core')['controlledRef']
   const createApp: typeof import('vue')['createApp']
+  const createD: typeof import('./composables/document/create-model')['createD']
   const createDialog: typeof import('./composables/dialog')['createDialog']
   const createEventHook: typeof import('@vueuse/core')['createEventHook']
   const createGlobalState: typeof import('@vueuse/core')['createGlobalState']
@@ -62,6 +65,7 @@ declare global {
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
   const isRouteBackValid: typeof import('./composables/route-back')['isRouteBackValid']
+  const jsonRpcFetch: typeof import('./services/api-client')['jsonRpcFetch']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
@@ -113,6 +117,7 @@ declare global {
   const routeBack: typeof import('./composables/route-back')['routeBack']
   const router: typeof import('./router/index')['router']
   const routes: typeof import('./router/index')['routes']
+  const sdf: typeof import('./composables/document/create-model')['sdf']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
   const setupTypeboxErrors: typeof import('./utils/typebox-errors')['setupTypeboxErrors']
@@ -276,6 +281,7 @@ declare global {
   const useStyleTag: typeof import('@vueuse/core')['useStyleTag']
   const useSupported: typeof import('@vueuse/core')['useSupported']
   const useSwipe: typeof import('@vueuse/core')['useSwipe']
+  const useTaskHttpService: typeof import('./services/http/user-http-serice')['useTaskHttpService']
   const useTemplateRefsList: typeof import('@vueuse/core')['useTemplateRefsList']
   const useTextDirection: typeof import('@vueuse/core')['useTextDirection']
   const useTextSelection: typeof import('@vueuse/core')['useTextSelection']
@@ -294,6 +300,8 @@ declare global {
   const useToggle: typeof import('@vueuse/core')['useToggle']
   const useTransition: typeof import('@vueuse/core')['useTransition']
   const useUrlSearchParams: typeof import('@vueuse/core')['useUrlSearchParams']
+  const useUserCreateModel: typeof import('./composables/document/create-model')['useUserCreateModel']
+  const useUserHttpService: typeof import('./services/http/user-http-serice')['useUserHttpService']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
   const useVModel: typeof import('@vueuse/core')['useVModel']
   const useVModels: typeof import('@vueuse/core')['useVModels']
@@ -392,6 +400,7 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isRouteBackValid: UnwrapRef<typeof import('./composables/route-back')['isRouteBackValid']>
+    readonly jsonRpcFetch: UnwrapRef<typeof import('./services/api-client')['jsonRpcFetch']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
@@ -624,6 +633,8 @@ declare module 'vue' {
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>
+    readonly useUserCreateModel: UnwrapRef<typeof import('./composables/document/create-model')['useUserCreateModel']>
+    readonly useUserHttpService: UnwrapRef<typeof import('./services/http/user-http-serice')['useUserHttpService']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
     readonly useVModel: UnwrapRef<typeof import('@vueuse/core')['useVModel']>
     readonly useVModels: UnwrapRef<typeof import('@vueuse/core')['useVModels']>

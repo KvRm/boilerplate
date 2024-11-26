@@ -35,6 +35,7 @@ export default defineConfig({
         'src/utils/**',
         'src/router/**',
         'src/types/**',
+        'src/services/**',
       ],
       vueTemplate: true,
     }),

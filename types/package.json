@@ -1,0 +1,25 @@
+{
+  "name": "types",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . --ext .ts --max-warnings 0 && npx tsc --skipLibCheck",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "build": "rimraf dist && tsc",
+    "test:static": "npm run lint"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,10 +1,11 @@
-import { Static, Type } from "@sinclair/typebox";
-import { userDto } from "../../../dto";
+import type { Static } from '@sinclair/typebox'
+import { Type } from '@sinclair/typebox'
+import { userModel } from '../../../model'
 
 export const request = Type.Omit(
-  userDto,
-  ["password", "createdAt", "updatedAt"],
-  { additionalProperties: false }
-);
+  userModel,
+  ['password', 'createdAt', 'updatedAt'],
+  { additionalProperties: false },
+)
 
-export type Request = Static<typeof request>;
+export type Request = Static<typeof request>

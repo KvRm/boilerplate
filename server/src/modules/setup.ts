@@ -1,9 +1,9 @@
-import { FastifyInstance, FastifyReply } from "fastify";
-import { TSchema } from "@sinclair/typebox";
-import { Value } from "@sinclair/typebox/value";
-import { isJsonRpcRequest, jsonRpcError } from "./json-rpc";
-import { JsonRpcError, JsonRpcRequest, JsonRpcResult } from "types";
-import { logger } from "../services/logger";
+import type { TSchema } from '@sinclair/typebox'
+import type { FastifyInstance, FastifyReply } from 'fastify'
+import type { JsonRpcError, JsonRpcRequest, JsonRpcResult } from 'types'
+import { Value } from '@sinclair/typebox/value'
+import { logger } from '../services/logger'
+import { isJsonRpcRequest, jsonRpcError } from './json-rpc'
 
 export type Handler<Params = unknown, Response = unknown> = (
   params: Params,
@@ -12,48 +12,50 @@ export type Handler<Params = unknown, Response = unknown> = (
   | Promise<JsonRpcResult<Response>>
   | JsonRpcResult<Response>
   | Promise<JsonRpcError<unknown>>
-  | JsonRpcError<unknown>;
+  | JsonRpcError<unknown>
 
-export type Route<Params = unknown, Response = unknown> = {
-  path: string;
-  handler: Handler<Params, Response>;
-};
+export interface Route<Params = unknown, Response = unknown> {
+  path: string
+  handler: Handler<Params, Response>
+}
 
 export function makeHandler<Params = unknown, Response = unknown>(
   requestSchema: TSchema,
   responseSchema: TSchema,
-  handler: Handler<Params, Response>
+  handler: Handler<Params, Response>,
 ) {
   return async (request: JsonRpcRequest<Params>, reply: FastifyReply) => {
     if (!isJsonRpcRequest(request)) {
-      return jsonRpcError(reply, "Request should match jsonRpc schema");
+      return jsonRpcError(reply, 'Request should match jsonRpc schema')
     }
 
     try {
-      Value.Assert(requestSchema, request.params);
-    } catch (err) {
-      logger.error(err);
-      return jsonRpcError(reply, "Invalid params");
+      Value.Assert(requestSchema, request.params)
+    }
+    catch (err) {
+      logger.error(err)
+      return jsonRpcError(reply, 'Invalid params')
     }
 
-    const result = await handler(request.params, reply);
+    const result = await handler(request.params, reply)
 
     if (!(result as JsonRpcError)?.error) {
-      logger.info(result);
+      logger.info(result)
       try {
-        Value.Assert(responseSchema, (result as JsonRpcResult).result);
-      } catch (err) {
-        logger.error(err);
-        return jsonRpcError(reply, "Invalid response");
+        Value.Assert(responseSchema, (result as JsonRpcResult).result)
+      }
+      catch (err) {
+        logger.error(err)
+        return jsonRpcError(reply, 'Invalid response')
       }
     }
 
-    return result;
-  };
+    return result
+  }
 }
 
 export function setupRoutes(fastify: FastifyInstance, routes: Array<Route>) {
   routes.forEach(({ path, handler }) => {
-    fastify.post(path, (request, reply) => handler(request.body, reply));
-  });
+    fastify.post(path, (request, reply) => handler(request.body, reply))
+  })
 }

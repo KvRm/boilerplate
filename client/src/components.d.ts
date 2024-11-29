@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseHeader: typeof import('./components/base-header.vue')['default']
     CampaignColorSelectorNode: typeof import('./components/campaign/color-selector-node.vue')['default']
     CampaignOutputNode: typeof import('./components/campaign/output-node.vue')['default']
     RouteBack: typeof import('./components/route-back.vue')['default']
@@ -29,5 +30,6 @@ declare module 'vue' {
     UiSpinner: typeof import('./components/ui/spinner.vue')['default']
     UiTable: typeof import('./components/ui/table.vue')['default']
     UiTabs: typeof import('./components/ui/tabs.vue')['default']
+    UserCreatePanel: typeof import('./components/user/create-panel.vue')['default']
   }
 }

@@ -8,17 +8,14 @@ const props = defineProps<{
 const router = useRouter()
 
 function handleClick() {
-  if (!isRouteBackValid.value && props.fallbackRoute) {
-    router.push(props.fallbackRoute)
-    return
-  }
-
+  if (props.fallbackRoute)
+    return router.push(props.fallbackRoute)
   routeBack(router)
 }
 </script>
 
 <template>
-  <button v-if="isRouteBackValid || fallbackRoute" @click="handleClick">
+  <button v-if="isRouteBackValid(router) || fallbackRoute" @click="handleClick">
     <div i-material-symbols:arrow-back-ios-new />
   </button>
 </template>

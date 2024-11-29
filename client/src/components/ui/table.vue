@@ -5,7 +5,7 @@ import type { SortingField, SortingOrderValue } from '~/types/sorting'
 
 export type UiTableColumn = Omit<QTableColumn, 'field'> & { width?: number }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   rows: T[]
   columns: UiTableColumn[]
   selected?: T[]
@@ -19,7 +19,10 @@ const props = defineProps<{
   cellClass?: string
   cellStyle?: string | ((elem: T) => string)
   notFoundFallback?: boolean
-}>()
+}>(), {
+  rowsPerPage: 25,
+  page: 1,
+})
 const emit = defineEmits<{
   (e: 'update:page', value: number): void
   (e: 'update:rowsPerPage', value: number): void
@@ -28,15 +31,20 @@ const emit = defineEmits<{
   (e: 'update:order', value: Array<SortingOrderValue | undefined>): void
 }>()
 
-const pageLocal = ref(1)
-const rowsPerPageLocal = ref(25)
-
-const paginationModel = computed({
+const page = computed<number>({
   get() {
-    return { page: pageLocal.value, rowsPerPage: rowsPerPageLocal.value }
+    return props.page
   },
-  set({ page, rowsPerPage }) {
-    emit('update:page', page)
+  set(value) {
+    emit('update:page', value)
+  },
+})
+
+const pagination = computed({
+  get() {
+    return { rowsPerPage: props.rowsPerPage }
+  },
+  set({ rowsPerPage }) {
     emit('update:rowsPerPage', rowsPerPage)
   },
 })
@@ -66,7 +74,7 @@ const columnsValue = computed<QTableColumn[]>(() => props.columns.map(col => ({
 
 const rowsValue = computed(() => {
   if (props.isLoading)
-    return Array.from({ length: (pageLocal.value * rowsPerPageLocal.value) + 2 }).fill('')
+    return Array.from({ length: 2 }).fill('')
 
   return props.rows
 })
@@ -80,6 +88,22 @@ function getCellProps(width?: number) {
 
 function checkIsCellSelected(row: T) {
   return checkIsSelected(row) || compare(props.selectedRow, row)
+}
+
+const isFirstPage = computed(() => page.value === 1)
+
+const isLastPage = computed(() => page.value === Math.ceil(((props.total || 0) / props.rowsPerPage)))
+
+function nextPage() {
+  if (isLastPage.value)
+    return
+  page.value = page.value + 1
+}
+
+function prevPage() {
+  if (isFirstPage.value)
+    return
+  page.value = page.value - 1
 }
 
 function handleOrder(fieldName: string) {
@@ -102,25 +126,11 @@ function handleOrder(fieldName: string) {
 
   emit('update:order', value)
 }
-
-watch(pageLocal, () => {
-  emit('update:page', pageLocal.value)
-})
-watch(rowsPerPageLocal, () => {
-  emit('update:page', pageLocal.value)
-})
-
-watch(() => props.page, () => {
-  pageLocal.value = props.page || 1
-}, { immediate: true })
-watch(() => props.rowsPerPage, () => {
-  rowsPerPageLocal.value = props.rowsPerPage || 25
-}, { immediate: true })
 </script>
 
 <template>
   <QTable
-    v-model:pagination="paginationModel"
+    v-model:pagination="pagination"
     :rows="rowsValue"
     :columns="columnsValue"
     row-key="name"
@@ -129,11 +139,11 @@ watch(() => props.rowsPerPage, () => {
     :rows-per-page-options="[25, 50, 100]"
     flat
   >
-    <template #pagination="{ pagination, nextPage, prevPage, isFirstPage, isLastPage }">
+    <template #pagination>
       <div h-full flex-v-center gap-6.5>
         <span v-if="!isLoading" text-xs>
           {{
-            `${(pagination.page - 1) * pagination.rowsPerPage + 1}-${Math.min((pagination.page) * pagination.rowsPerPage, total || rows.length)}
+            `${(page - 1) * rowsPerPage + 1}-${Math.min((page) * rowsPerPage, total || rows.length)}
             из
             ${total || rows.length}`
           }}
@@ -142,10 +152,10 @@ watch(() => props.rowsPerPage, () => {
 
         <div flex-v-center gap-6>
           <button :disabled="isLoading || isFirstPage">
-            <div i-ic:baseline-chevron-left h-6 w-6 text-grey-600 @click="prevPage()" />
+            <div i-ic:baseline-chevron-left h-6 w-6 text-grey-600 @click="prevPage" />
           </button>
           <button :disabled="isLoading || isLastPage">
-            <div i-ic:baseline-chevron-right h-6 w-6 text-grey-600 @click="nextPage()" />
+            <div i-ic:baseline-chevron-right h-6 w-6 text-grey-600 @click="nextPage" />
           </button>
         </div>
       </div>

@@ -1,13 +1,13 @@
-import { Http } from "types";
-import { Handler } from "../../setup";
+import type { Http } from 'types'
+import type { Handler } from '../../setup'
 
-import * as dal from "../dal";
-import { jsonRpcResult } from "../../json-rpc";
+import { jsonRpcResult } from '../../json-rpc'
+import * as dal from '../dal'
 
 export const getListHandler: Handler<
   Http.User.GetList.Request,
   Http.User.GetList.Response
-> = async (params, reply) => {
-  const result = await dal.getMany(params);
-  return jsonRpcResult(result);
-};
+> = async (params) => {
+  const result = await dal.getMany(params)
+  return jsonRpcResult(result)
+}

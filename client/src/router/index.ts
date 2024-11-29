@@ -1,9 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-import { campaignRoutes } from './campaign'
 
 export const routes: RouteRecordRaw[] = [
   ...campaignRoutes,
+  ...userRoutes,
   { path: '/:catchAll(.*)*', redirect: { name: ROUTE_NAMES.CAMPAIGN.INDEX } },
 ]
 

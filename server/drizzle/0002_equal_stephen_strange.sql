@@ -1,0 +1,1 @@
+ALTER TABLE `campaigns` ADD CONSTRAINT `campaigns_name_unique` UNIQUE(`name`);

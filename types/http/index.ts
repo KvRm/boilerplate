@@ -1,2 +1,2 @@
-export * as User from "./user";
-export * from './methods';
+export * from './methods'
+export * as User from './user'

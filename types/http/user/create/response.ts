@@ -1,6 +1,7 @@
-import { Pick, Static } from "@sinclair/typebox";
-import { userDto } from "../../../dto";
+import type { Static } from '@sinclair/typebox'
+import { Pick } from '@sinclair/typebox'
+import { userModel } from '../../../model'
 
-export const response = Pick(userDto, ['id']);
+export const response = Pick(userModel, ['id'])
 
-export type Response = Static<typeof response>;
+export type Response = Static<typeof response>

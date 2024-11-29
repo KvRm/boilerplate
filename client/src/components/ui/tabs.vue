@@ -26,7 +26,7 @@ const model = computed({
 </script>
 
 <template>
-  <QTabs v-model="model" align="justify" active-color="primary" narrow-indicator dense h-16 text-gray-600>
+  <QTabs v-model="model" align="justify" active-color="primary" narrow-indicator dense h-16 text-grey-600>
     <QTab
       v-for="tab in tabs" :key="tab.name"
       :name="tab.name" :label="tab.label" no-caps

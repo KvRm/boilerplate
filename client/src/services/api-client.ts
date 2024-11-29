@@ -4,7 +4,7 @@ import type { Http, JsonRpcError, JsonRpcResult } from 'types'
 import { toast } from 'vue3-toastify'
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.API_URL,
+  baseURL: import.meta.env.VITE_APP_API_URL,
 })
 
 export async function jsonRpcFetch<Result>(methodPath: Http.MethodPath, params: unknown, signal: AbortSignal) {
@@ -15,12 +15,12 @@ export async function jsonRpcFetch<Result>(methodPath: Http.MethodPath, params: 
       params,
     }, { signal })
     if ('error' in response.data) {
-      toast(response.data.error, { type: 'error' })
-      throw new Error(response.data.error)
+      throw new Error(`${methodPath}: ${response.data.error}`)
     }
     return (response.data as JsonRpcResult<Result>).result
   }
   catch (error) {
     toast((error as AxiosError).message, { type: 'error' })
+    return null
   }
 }

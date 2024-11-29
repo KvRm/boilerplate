@@ -33,7 +33,7 @@ function handleRouteClick(row: (typeof rows)[number]) {
     </div>
 
     <UiTable
-      class="h-[calc(100vh-86px)]" mt-5 :columns="columns" :rows="rows"
+      class="h-[calc(100vh-108px)]" mt-5 :columns="columns" :rows="rows"
       cell-class="cursor-pointer"
       @row-click="handleRouteClick($event)"
     >

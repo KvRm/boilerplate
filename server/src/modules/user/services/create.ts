@@ -1,16 +1,16 @@
-import { Http } from "types";
-import { sha256 } from "js-sha256";
+import type { Http } from 'types'
+import type { Handler } from '../../setup'
 
-import { Handler } from "../../setup";
+import { sha256 } from 'js-sha256'
 
-import * as dal from "../dal";
-import { jsonRpcResult } from "../../json-rpc";
+import { jsonRpcResult } from '../../json-rpc'
+import * as dal from '../dal'
 
 export const createHandler: Handler<
   Http.User.Create.Request,
   Http.User.Create.Response
-> = async (params, reply) => {
-  const hashedPassword = sha256(params.password);
-  const result = await dal.createOne({ ...params, password: hashedPassword });
-  return jsonRpcResult(result);
-};
+> = async (params) => {
+  const hashedPassword = sha256(params.password)
+  const result = await dal.createOne({ ...params, password: hashedPassword })
+  return jsonRpcResult(result)
+}

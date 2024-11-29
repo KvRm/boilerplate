@@ -1,16 +1,17 @@
-import fastify from "fastify";
-import pino from 'pino'
+import fastifyCors from '@fastify/cors'
+import fastify from 'fastify'
 
-import { setupUserModule } from "./modules/user";
-
+import { setupDb } from './db/setup'
+import { setupUserModule } from './modules/user'
+import { setupLogger } from './services/logger'
 import { generateUuid } from './utils/generate-uuid'
-import { setupDb } from "./services/db";
-import { setupLogger } from "./services/logger";
-
-export let log = {} as pino.BaseLogger
 
 export async function build(opts = {}) {
-  const app = fastify(opts);
+  const app = fastify(opts)
+
+  app.register(fastifyCors, {
+    origin: process.env.NODE_ENV === 'development' ? [/localhost/] : [],
+  })
 
   setupLogger(app)
   await setupDb()
@@ -21,22 +22,19 @@ export async function build(opts = {}) {
 
   app.setErrorHandler(async (err, request, reply) => {
     if (err.validation) {
-      reply.code(403);
-      return err.message;
+      reply.code(403)
+      return err.message
     }
-    request.log.error({ err });
-    reply.code(err.statusCode || 500);
+    request.log.error({ err })
+    reply.code(err.statusCode || 500)
 
-    return "There was an error processing your request.";
-  });
+    return 'There was an error processing your request.'
+  })
 
   app.setNotFoundHandler(async (request, reply) => {
-    reply.code(404);
-    return "Couldn't find what you were looking for.";
-  });
+    reply.code(404)
+    return 'Couldn\'t find what you were looking for.'
+  })
 
-  log = app.log
-  
-
-  return app;
+  return app
 }

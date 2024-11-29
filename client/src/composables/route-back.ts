@@ -1,13 +1,13 @@
 import type { Router } from 'vue-router'
 
-export const isRouteBackValid = computed(() => {
-  const router = useRouter()
-  return !!router.options.history.state.back
-})
+export function isRouteBackValid(routerParam?: Router) {
+  const routerInstance = routerParam || router
+  return !!routerInstance.options.history.state.back
+}
 
-export function routeBack(router: Router = useRouter()) {
-  if (!isRouteBackValid.value)
+export function routeBack(routerParam?: Router) {
+  if (!isRouteBackValid(routerParam))
     return
 
-  router.back()
+  (routerParam || router).back()
 }

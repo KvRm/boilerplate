@@ -1,10 +1,10 @@
-import * as User from "./user";
+import * as User from './user'
 
 export const methodList = {
   user: {
     ...User.methodList,
   },
-} as const;
+} as const
 
 export type MethodPath =
-  (typeof methodList)[keyof typeof methodList][keyof (typeof methodList)[keyof typeof methodList]]["path"];
+  (typeof methodList)[keyof typeof methodList][keyof (typeof methodList)[keyof typeof methodList]]['path']

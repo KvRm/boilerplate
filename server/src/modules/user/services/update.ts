@@ -1,13 +1,13 @@
-import { Http } from "types";
-import { Handler } from "../../setup";
+import type { Http } from 'types'
+import type { Handler } from '../../setup'
 
-import * as dal from "../dal";
-import { jsonRpcResult } from "../../json-rpc";
+import { jsonRpcResult } from '../../json-rpc'
+import * as dal from '../dal'
 
 export const updateHandler: Handler<
   Http.User.Update.Request,
   Http.User.Update.Response
-> = async (params, reply) => {
-  const result = await dal.updateOne(params);
-  return jsonRpcResult(result);
-};
+> = async (params) => {
+  const result = await dal.updateOne(params)
+  return jsonRpcResult(result)
+}

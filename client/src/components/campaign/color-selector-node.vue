@@ -34,7 +34,7 @@ function onGradient() {
 <template>
   <div>Select a color</div>
 
-  <div class="color-selector nodrag nopan">
+  <div class="nodrag nopan color-selector">
     <button
       v-for="{ name: colorName, value: color } of colors"
       :key="colorName"

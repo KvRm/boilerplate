@@ -1,7 +1,7 @@
-import type { QueryOptions } from '@tanstack/vue-query'
 import { useQuery } from '@tanstack/vue-query'
 import { Http } from 'types'
 import type { MaybeRefOrGetter } from 'vue'
+import type { TanstackQueryOptions } from '~/types/tanstack-query'
 
 export function useUserHttpService() {
   const queryKey = ['user']
@@ -17,9 +17,10 @@ export function useUserHttpService() {
 
   function getList(
     params: MaybeRefOrGetter<Http.User.GetList.Request>,
-    queryOptions: QueryOptions = {},
+    queryOptions: TanstackQueryOptions = {},
   ) {
     return useQuery({
+      ...queryOptions,
       queryKey: [...getListQueryKey, params],
       queryFn: ({ signal }) =>
         jsonRpcFetch<Http.User.GetList.Response>(
@@ -27,25 +28,25 @@ export function useUserHttpService() {
           toValue(params),
           signal,
         ),
-      ...queryOptions,
     })
   }
 
-  // function getEntity(
-  //   params: MaybeRefOrGetter<Http.User.GetEntity.Request>,
-  //   queryOptions: QueryOptions = {},
-  // ) {
-  //   return useQuery({
-  //     queryKey: [...getEntityQueryKey, params],
-  //     queryFn: ({ signal }) =>
-  //       apiClient.jsonRpcFetch(
-  //         Http.methodList.user.getEntity,
-  //         unref(params),
-  //         signal,
-  //       ),
-  //     ...queryOptions,
-  //   })
-  // }
+  function getEntity(
+    params: MaybeRefOrGetter<Http.User.GetEntity.Request>,
+    queryOptions: TanstackQueryOptions = {},
+  ) {
+    return useQuery({
+      ...queryOptions,
+      queryKey: [...getEntityQueryKey, params],
+      queryFn: ({ signal }) =>
+        jsonRpcFetch<Http.User.GetEntity.Response>(
+          Http.methodList.user.getEntity.path,
+          toValue(params),
+          signal,
+        ),
+    })
+  }
+
 
   // create() {
   //   const queryClient = useQueryClient()

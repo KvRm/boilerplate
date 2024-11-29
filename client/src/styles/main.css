@@ -112,14 +112,14 @@ a {
 
 /* TRANSITIONS */
 .fade-leave-active {
-  transition: all 0.2s ;
+  transition: all 0.2s;
 }
 .fade-leave-to {
   opacity: 0;
 }
 
 .fade-enter-active {
-  transition: all 0.2s ;
+  transition: all 0.2s;
 }
 .fade-enter-from {
   opacity: 0;
@@ -127,7 +127,7 @@ a {
 
 .slide-right-leave-active {
   position: absolute;
-  transition: all 0.2s ;
+  transition: all 0.2s;
 }
 .slide-right-leave-to {
   position: absolute;
@@ -136,13 +136,12 @@ a {
 
 .slide-right-enter-active {
   position: absolute;
-  transition: all 0.2s ;
+  transition: all 0.2s;
 }
 .slide-right-enter-from {
   position: absolute;
   transform: translate(100%, 0);
 }
-
 
 ::-webkit-scrollbar {
   width: 14px;

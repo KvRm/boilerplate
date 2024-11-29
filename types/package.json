@@ -3,22 +3,24 @@
   "version": "1.0.0",
   "author": "",
   "license": "MIT",
-  "scripts": {
-    "lint": "eslint . --ext .ts --max-warnings 0 && npx tsc --skipLibCheck",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "build": "rimraf dist && tsc",
-    "test:static": "npm run lint"
-  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "lint": "eslint . --ext .ts --max-warnings 0 && npx tsc --skipLibCheck",
+    "lint:fix": "npx eslint . --fix",
+    "build": "rimraf dist && tsc",
+    "test:static": "npm run lint"
+  },
   "dependencies": {
     "@sinclair/typebox": "^0.34.8"
   },
   "devDependencies": {
-    "eslint": "^8.41.0",
+    "@antfu/eslint-config": "^3.11.0",
+    "eslint": "^9.9.1",
+    "eslint-plugin-format": "^0.1.2",
     "rimraf": "^6.0.1",
     "typescript": "^5.2.2"
   }

@@ -36,6 +36,9 @@ setupNprogress(router)
 
 setupPwa(router)
 
+setupTypeboxErrors()
+setupTypeboxFormats()
+
 app.use(Vue3Toastify, { autoClose: 3000 })
 
 app.use(VueQueryPlugin, vueQueryPluginOptions)

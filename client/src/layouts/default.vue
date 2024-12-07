@@ -20,8 +20,8 @@ function checkIsNavItemActive(routeName: string) {
             <div h-7 w-7 rounded-full bg-black />
             <div>Иванов И. И.</div>
           </div>
-          <button h-7 w-7 flex-center rounded hover:bg-grey-100>
-            <div i-material-symbols:logout text-grey-600 />
+          <button btn-base h-7 w-7>
+            <div i-material-symbols:logout />
           </button>
         </div>
       </div>
@@ -30,8 +30,8 @@ function checkIsNavItemActive(routeName: string) {
         <span px-2 text-lg font-800>Меню</span>
         <RouterLink
           v-for="navItem in navItems" :key="navItem.routeName" :to="{ name: navItem.routeName }"
-          block w-full rounded hover:bg-grey-100 p-2
-          :class="{ 'text-blue-300 bg-grey-200': checkIsNavItemActive(navItem.routeName) }"
+          block w-full rounded hover:bg-grey-200 p-2
+          :class="{ 'text-blue-300 bg-grey-100': checkIsNavItemActive(navItem.routeName) }"
         >
           {{ navItem.label }}
         </RouterLink>

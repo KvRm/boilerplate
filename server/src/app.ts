@@ -2,9 +2,11 @@ import fastifyCors from '@fastify/cors'
 import fastify from 'fastify'
 
 import { setupDb } from './db/setup'
+import { setupCampaignModule } from './modules/campaign'
 import { setupUserModule } from './modules/user'
 import { setupLogger } from './services/logger'
 import { generateUuid } from './utils/generate-uuid'
+import { setupTypeboxFormats } from './utils/typebox-formats'
 
 export async function build(opts = {}) {
   const app = fastify(opts)
@@ -13,10 +15,12 @@ export async function build(opts = {}) {
     origin: process.env.NODE_ENV === 'development' ? [/localhost/] : [],
   })
 
+  setupTypeboxFormats()
   setupLogger(app)
   await setupDb()
 
   setupUserModule(app)
+  setupCampaignModule(app)
 
   app.setGenReqId(() => generateUuid())
 

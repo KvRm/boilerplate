@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { QInputProps } from 'quasar'
 import { QIcon, QInput } from 'quasar'
 
 export interface UiInputRef {
@@ -6,12 +7,14 @@ export interface UiInputRef {
   focus: () => void
 }
 
-const props = withDefaults(defineProps<{
+const props = withDefaults(defineProps<QInputProps & {
   modelValue?: string | number
   isDisabled?: boolean
   errorMessage?: string
   type?: 'text' | 'number' | 'date' | 'password' | 'textarea'
   clearable?: boolean
+  dense?: boolean
+  debounce?: number
 }>(), {
   type: 'text',
 })
@@ -57,8 +60,8 @@ defineExpose<UiInputRef>({ focus, blur })
     :disable="isDisabled"
     :error="!!errorMessage" :error-message="errorMessage"
     filled no-error-icon hide-bottom-space text-base
+    :label :dense :clearable :debounce
     clear-icon="close"
-    :clearable="clearable"
     @blur="$emit('blur')"
   >
     <template v-if="type === 'password'" #append>

@@ -9,7 +9,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseHeader: typeof import('./components/base-header.vue')['default']
     CampaignColorSelectorNode: typeof import('./components/campaign/color-selector-node.vue')['default']
+    CampaignCreateDialog: typeof import('./components/campaign/create-dialog.vue')['default']
+    CampaignEditDialog: typeof import('./components/campaign/edit-dialog.vue')['default']
     CampaignOutputNode: typeof import('./components/campaign/output-node.vue')['default']
+    CampaignStatusBadge: typeof import('./components/campaign/status-badge.vue')['default']
+    copy: typeof import('./components/ui/dialog.vue')['default']
     RouteBack: typeof import('./components/route-back.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -18,6 +22,7 @@ declare module 'vue' {
     UiButtonToggle: typeof import('./components/ui/button-toggle.vue')['default']
     UiCheckbox: typeof import('./components/ui/checkbox.vue')['default']
     UiContextMenu: typeof import('./components/ui/context-menu.vue')['default']
+    UiDialog: typeof import('./components/ui/dialog.vue')['default']
     UiInput: typeof import('./components/ui/input.vue')['default']
     UiMenu: typeof import('./components/ui/menu.vue')['default']
     UiModal: typeof import('./components/ui/modal.vue')['default']
@@ -31,5 +36,6 @@ declare module 'vue' {
     UiTable: typeof import('./components/ui/table.vue')['default']
     UiTabs: typeof import('./components/ui/tabs.vue')['default']
     UserCreatePanel: typeof import('./components/user/create-panel.vue')['default']
+    UserEditDialog: typeof import('./components/user/edit-dialog.vue')['default']
   }
 }

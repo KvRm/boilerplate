@@ -29,10 +29,10 @@ export function jsonRpcResult<T>(value: T): JsonRpcResult<T> {
   }
 }
 
-export function jsonRpcError<T>(
+export function jsonRpcError(
   reply: FastifyReply,
-  value: T,
-): JsonRpcError<T> {
+  value: string,
+): JsonRpcError {
   reply.code(201)
   return {
     id: generateUuid(),

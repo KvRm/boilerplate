@@ -8,8 +8,9 @@ export const campaigns = table(
   {
     id: t.int().primaryKey().autoincrement(),
     name: t.varchar({ length: 256 }).unique().notNull(),
-    status: t.varchar({ length: 256 }).notNull(),
+    description: t.varchar({ length: 2000 }),
     executedAt: t.timestamp('executed_at'),
+    status: t.varchar({ length: 256 }).notNull(),
 
     updaterId: t.int('updater_id').references(() => users.id),
 

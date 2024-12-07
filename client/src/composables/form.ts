@@ -1,4 +1,5 @@
-import { type TSchema, Type } from '@sinclair/typebox'
+import type { TSchema } from '@sinclair/typebox'
+import { Type } from '@sinclair/typebox'
 import { Value } from '@sinclair/typebox/value'
 import type { PromisifyFn } from '@vueuse/core'
 import { useDebounceFn } from '@vueuse/core'
@@ -6,7 +7,7 @@ import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 import { computed, ref, toValue, watch } from 'vue'
 
 interface FormOptions<Data extends object> {
-  data?: Ref<Data | undefined>
+  data?: Ref<Data | undefined | null>
 }
 
 interface UseFormReturn<Params> {
@@ -83,30 +84,32 @@ export function useForm<Params extends object, Data extends object>(
     return validationResult
   }
 
-  const submit
-    = (
-      cb: (params: Params) => void | Promise<void>,
-      errorCb?: (error: Error) => void | Promise<void>,
-    ) =>
-      async () => {
-        if (isSubmitting.value)
-          return
-        if (data?.value && !areParamsChanged.value)
-          return
-        if (!validate())
-          return
+  const submit = (
+    cb: (params: Params) => void | Promise<void>,
+    errorCb?: (error: Error) => void | Promise<void>,
+  ) =>
+    async () => {
+      if (isSubmitting.value)
+        return
+      if (data?.value && !areParamsChanged.value)
+        return
+      if (!validate())
+        return
 
-        try {
-          isSubmitting.value = true
-          await cb(params.value)
-        }
-        catch (error) {
-          errorCb?.(error as Error)
-        }
-        finally {
-          isSubmitting.value = false
-        }
+      try {
+        isSubmitting.value = true
+        const p = Object.fromEntries(
+          Object.entries(params.value).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value]),
+        ) as Params
+        await cb(p)
       }
+      catch (error) {
+        errorCb?.(error as Error)
+      }
+      finally {
+        isSubmitting.value = false
+      }
+    }
 
   const debouncedRefetch = (cb: () => void | Promise<void>) =>
     useDebounceFn(async () => {

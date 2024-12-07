@@ -1,59 +1,86 @@
 <script setup lang="ts">
+import { useRouteQuery } from '@vueuse/router'
 import { format } from 'date-fns'
+import type { Http } from 'types'
 import type { UiTableColumn } from '~/components/ui/table.vue'
-import { DATE_TIME_DEFAULT_FORMAT } from '~/constants/date'
 
 const router = useRouter()
 
 const columns: UiTableColumn[] = [
   { name: 'name', label: 'Название' },
+  { name: 'status', label: 'Статус', width: 244 },
+  { name: 'updater', label: 'Последнее изменение', width: 244 },
   { name: 'created', label: 'Дата создания', width: 200 },
   { name: 'updated', label: 'Дата изменения', width: 200 },
   { name: 'executed', label: 'Дата запуска', width: 200 },
-  { name: 'author', label: 'Автор', width: 244 },
-]
-const rows = [
-  { id: '212', name: 'Продай Халву коту', createdAt: new Date(), updatedAt: new Date(), executedAt: new Date(), authorId: 'Иванов И.И.' },
-  { id: '213', name: 'Вклад для котов', createdAt: new Date(), updatedAt: new Date(), executedAt: new Date(), authorId: 'Иванов И.И.' },
-  { id: '214', name: 'Берем кредиты мы в совкомбанке', createdAt: new Date(), updatedAt: new Date(), authorId: 'Иванов И.И.' },
 ]
 
-function handleRouteClick(row: (typeof rows)[number]) {
+const isCreateDialogOpen = ref(false)
+
+const limit = useRouteQuery(URL_QUERY_KEYS.CAMPAIGN_LIST_LIMIT, 25, { transform: Number })
+const page = useRouteQuery(URL_QUERY_KEYS.CAMPAIGN_LIST_PAGE, 1, { transform: Number })
+const search = useRouteQuery(URL_QUERY_KEYS.CAMPAIGN_LIST_SEARCH, '')
+const { campaignList, isCampaignListLoading } = useCampaignPreparedList({
+  filters: () => ({ searchQuery: search.value || undefined }),
+  limit,
+  page,
+})
+
+function handleRouteClick(row: Http.Campaign.GetList.Response['list'][0]) {
   router.push({ name: ROUTE_NAMES.CAMPAIGN.DETAIL, params: { [URL_PARAMS_KEYS.CAMPAIGN_DETAIL_ID]: row.id } })
 }
 </script>
 
 <template>
-  <div p-2>
-    <div mt-2 flex-v-center justify-between pl-4>
+  <BaseHeader>
+    <template #prepend>
       <span text-xl font-500>Кампании</span>
-      <UiButton color="primary">
+    </template>
+    <template #append>
+      <UiButton color="primary" @click="isCreateDialogOpen = true">
         Создать кампанию
       </UiButton>
-    </div>
+    </template>
+  </BaseHeader>
 
-    <UiTable
-      class="h-[calc(100vh-108px)]" mt-5 :columns="columns" :rows="rows"
-      cell-class="cursor-pointer"
-      @row-click="handleRouteClick($event)"
-    >
-      <template #name="{ item }">
-        {{ item.name }}
-      </template>
-      <template #created="{ item }">
-        {{ format(item.createdAt, DATE_TIME_DEFAULT_FORMAT) }}
-      </template>
-      <template #updated="{ item }">
-        {{ format(item.updatedAt, DATE_TIME_DEFAULT_FORMAT) }}
-      </template>
-      <template #executed="{ item }">
-        <template v-if="item.executedAt">
-          {{ format(item.executedAt, DATE_TIME_DEFAULT_FORMAT) }}
-        </template>
-      </template>
-      <template #author="{ item }">
-        {{ item.authorId }}
-      </template>
-    </UiTable>
+  <div mx-5>
+    <UiInput v-model="search" label="Поиск" :debounce="500" />
   </div>
+
+  <UiTable
+    v-model:rows-per-page="limit"
+    v-model:page="page"
+    :is-loading="isCampaignListLoading"
+    class="h-[calc(100vh-128px)]" p-2
+    :columns="columns"
+    :rows="campaignList?.list || []"
+    :total="campaignList?.total"
+    cell-class="cursor-pointer"
+    @row-click="handleRouteClick($event)"
+  >
+    <template #name="{ item }">
+      {{ item.name }}
+    </template>
+    <template #created="{ item }">
+      {{ format(item.createdAt, RU_DATE_DOT_FORMAT) }}
+    </template>
+    <template #updated="{ item }">
+      <template v-if="item.updatedAt">
+        {{ format(item.updatedAt, RU_DATE_DOT_FORMAT) }}
+      </template>
+    </template>
+    <template #executed="{ item }">
+      <template v-if="item.executedAt">
+        {{ format(item.executedAt, RU_DATE_DOT_FORMAT) }}
+      </template>
+    </template>
+    <template #updater="{ item }">
+      {{ item.updaterId }}
+    </template>
+    <template #status="{ item }">
+      <CampaignStatusBadge :status="item.status" />
+    </template>
+  </UiTable>
+
+  <CampaignCreateDialog v-model="isCreateDialogOpen" />
 </template>

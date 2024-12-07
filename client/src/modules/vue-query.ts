@@ -18,7 +18,7 @@ export const vueQueryPluginOptions: VueQueryPluginOptions = {
       mutations: {
         retry: false,
         onError: ({ message }) => {
-          toast(message)
+          toast(message, { type: 'error' })
         },
       },
     },

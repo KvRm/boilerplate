@@ -6,15 +6,15 @@ import { timestamps } from '../../helpers/timestamps'
 export const userModel = Type.Object({
   id: Type.Number(),
 
-  firstName: Type.String(),
-  lastName: Type.String(),
-  secondName: optionalOrNull(Type.String()),
-  email: Type.String(),
-  phone: Type.String(),
-  password: Type.String(),
+  firstName: Type.String({ minLength: 1 }),
+  lastName: Type.String({ minLength: 1 }),
+  secondName: optionalOrNull(Type.String({ minLength: 1 })),
+  email: Type.String({ format: 'email' }),
+  phone: Type.String({ minLength: 1 }),
+  password: Type.String({ minLength: 8 }),
 
-  department: optionalOrNull(Type.String()),
-  jobTitle: optionalOrNull(Type.String()),
+  department: optionalOrNull(Type.String({ minLength: 1 })),
+  jobTitle: optionalOrNull(Type.String({ minLength: 1 })),
 
   ...timestamps,
 }, { additionalProperties: false })

@@ -11,8 +11,8 @@ export type Handler<Params = unknown, Response = unknown> = (
 ) =>
   | Promise<JsonRpcResult<Response>>
   | JsonRpcResult<Response>
-  | Promise<JsonRpcError<unknown>>
-  | JsonRpcError<unknown>
+  | Promise<JsonRpcError>
+  | JsonRpcError
 
 export interface Route<Params = unknown, Response = unknown> {
   path: string

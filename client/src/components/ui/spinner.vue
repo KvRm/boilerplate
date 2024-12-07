@@ -4,7 +4,7 @@ import { QSpinner } from 'quasar'
 withDefaults(defineProps<{
   size?: string
   fullsize?: boolean
-}>(), { size: '3em' })
+}>(), { size: '2em' })
 </script>
 
 <template>
@@ -16,6 +16,6 @@ withDefaults(defineProps<{
 
 <style>
 .ui-spinner-fullsize {
-  --at-apply: absolute top-0 left-0 right-0 bottom-0;
+  --at-apply: absolute top-0 left-0 right-0 bottom-0 z-1;
 }
 </style>

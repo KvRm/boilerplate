@@ -1,6 +1,8 @@
-import { useQuery } from '@tanstack/vue-query'
+import type { QueryClient } from '@tanstack/vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { Http } from 'types'
 import type { MaybeRefOrGetter } from 'vue'
+import { toast } from 'vue3-toastify'
 import type { TanstackQueryOptions } from '~/types/tanstack-query'
 
 export function useUserHttpService() {
@@ -14,6 +16,21 @@ export function useUserHttpService() {
     ...queryKey,
     Http.methodList.user.getEntity,
   ]
+
+  const invalidate = {
+    getList(queryClient: QueryClient) {
+      queryClient.invalidateQueries({ queryKey: getListQueryKey })
+    },
+    getEntity(queryClient: QueryClient, id: number) {
+      queryClient.invalidateQueries({ queryKey: [...getEntityQueryKey, id] })
+    },
+  }
+
+  const reset = {
+    getEntity(queryClient: QueryClient, id: number) {
+      queryClient.resetQueries({ queryKey: [...getEntityQueryKey, id] })
+    },
+  }
 
   function getList(
     params: MaybeRefOrGetter<Http.User.GetList.Request>,
@@ -37,7 +54,7 @@ export function useUserHttpService() {
   ) {
     return useQuery({
       ...queryOptions,
-      queryKey: [...getEntityQueryKey, params],
+      queryKey: [...getEntityQueryKey, toRef(toValue(params).id)],
       queryFn: ({ signal }) =>
         jsonRpcFetch<Http.User.GetEntity.Response>(
           Http.methodList.user.getEntity.path,
@@ -47,58 +64,40 @@ export function useUserHttpService() {
     })
   }
 
+  function update() {
+    const queryClient = useQueryClient()
 
-  // create() {
-  //   const queryClient = useQueryClient()
-  //   const uiKit = useUIKit()
+    return useMutation({
+      mutationFn: (params: Http.User.Update.Request) =>
+        jsonRpcFetch(Http.methodList.user.update.path, params),
+      onSuccess: (d, { id }) => {
+        toast('Пользователь обновлен', { type: 'success' })
+        invalidate.getList(queryClient)
+        invalidate.getEntity(queryClient, id)
+      },
+    })
+  }
 
-  //   return useMutation({
-  //     mutationFn: (params: HttpProtocol.Domains.TaskTrackerDomain.Task.Create.Params) =>
-  //       apiClient.jsonRpcFetch(
-  //         HttpProtocol.Domains.TaskTrackerDomain.Task.Create.method.name,
-  //         params,
-  //       ),
-  //     onSuccess: () => {
-  //       uiKit.toast({ message: 'Задача создана', type: 'success' })
-  //       JournalHttpService.invalidate.getPreparedList(queryClient)
-  //       TaskHttpService.invalidate.getPreparedList(queryClient)
-  //       TaskHttpService.invalidate.getHierarchy(queryClient)
-  //     },
-  //   })
-  // }
+  function remove() {
+    const queryClient = useQueryClient()
 
-  // static invalidate = {
-  //   getPreparedList(queryClient: QueryClient) {
-  //     queryClient.invalidateQueries({ queryKey: TaskHttpService.getPreparedListQueryKey })
-  //   },
-  //   getHierarchy(queryClient: QueryClient) {
-  //     queryClient.invalidateQueries({ queryKey: TaskHttpService.getHierarchyQueryKey })
-  //   },
-  //   getEntity(queryClient: QueryClient, id: string) {
-  //     queryClient.invalidateQueries({ queryKey: [...TaskHttpService.getEntityQueryKey, id] })
-  //   },
-  //   getAcl(queryClient: QueryClient, entityId: string) {
-  //     queryClient.invalidateQueries({ queryKey: [...TaskHttpService.getAclQueryKey, entityId] })
-  //   },
-  //   getBreadCrumbs(queryClient: QueryClient, id: string) {
-  //     queryClient.invalidateQueries({ queryKey: [...TaskHttpService.getBreadCrumbsQueryKey, id] })
-  //   },
-  //   getRelations(queryClient: QueryClient) {
-  //     queryClient.invalidateQueries({ queryKey: [...TaskHttpService.getRelationsQueryKey] })
-  //   },
-  // }
-
-  // static reset = {
-  //   getEntity(queryClient: QueryClient, id: string) {
-  //     queryClient.resetQueries({ queryKey: [...TaskHttpService.getEntityQueryKey, id] })
-  //   },
-  //   getBreadCrumbs(queryClient: QueryClient, id: string) {
-  //     queryClient.resetQueries({ queryKey: [...TaskHttpService.getBreadCrumbsQueryKey, id] })
-  //   },
-  // }
+    return useMutation({
+      mutationFn: (params: Http.User.Remove.Request) =>
+        jsonRpcFetch(Http.methodList.user.remove.path, params),
+      onSuccess: (d, { id }) => {
+        toast('Пользователь удален', { type: 'success' })
+        invalidate.getList(queryClient)
+        reset.getEntity(queryClient, id)
+      },
+    })
+  }
 
   return {
     getList,
     getEntity,
+    update,
+    remove,
+    invalidate,
+    reset,
   }
 }

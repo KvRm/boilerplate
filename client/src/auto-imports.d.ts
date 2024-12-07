@@ -170,6 +170,10 @@ declare global {
   const useBroadcastChannel: typeof import('@vueuse/core')['useBroadcastChannel']
   const useBrowserLocation: typeof import('@vueuse/core')['useBrowserLocation']
   const useCached: typeof import('@vueuse/core')['useCached']
+  const useCampaignCreate: typeof import('./composables/campaign/create')['useCampaignCreate']
+  const useCampaignHttpService: typeof import('./services/http/campaign-http-service')['useCampaignHttpService']
+  const useCampaignPreparedList: typeof import('./composables/campaign/list')['useCampaignPreparedList']
+  const useCampaignUpdate: typeof import('./composables/campaign/update')['useCampaignUpdate']
   const useClipboard: typeof import('@vueuse/core')['useClipboard']
   const useClipboardItems: typeof import('@vueuse/core')['useClipboardItems']
   const useCloned: typeof import('@vueuse/core')['useCloned']
@@ -307,6 +311,7 @@ declare global {
   const useUserList: typeof import('./composables/user/list')['useUserList']
   const useUserMedia: typeof import('@vueuse/core')['useUserMedia']
   const useUserPreparedList: typeof import('./composables/user/list')['useUserPreparedList']
+  const useUserUpdate: typeof import('./composables/user/update')['useUserUpdate']
   const useVModel: typeof import('@vueuse/core')['useVModel']
   const useVModels: typeof import('@vueuse/core')['useVModels']
   const useVibrate: typeof import('@vueuse/core')['useVibrate']
@@ -512,6 +517,10 @@ declare module 'vue' {
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
+    readonly useCampaignCreate: UnwrapRef<typeof import('./composables/campaign/create')['useCampaignCreate']>
+    readonly useCampaignHttpService: UnwrapRef<typeof import('./services/http/campaign-http-service')['useCampaignHttpService']>
+    readonly useCampaignPreparedList: UnwrapRef<typeof import('./composables/campaign/list')['useCampaignPreparedList']>
+    readonly useCampaignUpdate: UnwrapRef<typeof import('./composables/campaign/update')['useCampaignUpdate']>
     readonly useClipboard: UnwrapRef<typeof import('@vueuse/core')['useClipboard']>
     readonly useClipboardItems: UnwrapRef<typeof import('@vueuse/core')['useClipboardItems']>
     readonly useCloned: UnwrapRef<typeof import('@vueuse/core')['useCloned']>
@@ -647,6 +656,7 @@ declare module 'vue' {
     readonly useUserHttpService: UnwrapRef<typeof import('./services/http/user-http-serice')['useUserHttpService']>
     readonly useUserMedia: UnwrapRef<typeof import('@vueuse/core')['useUserMedia']>
     readonly useUserPreparedList: UnwrapRef<typeof import('./composables/user/list')['useUserPreparedList']>
+    readonly useUserUpdate: UnwrapRef<typeof import('./composables/user/update')['useUserUpdate']>
     readonly useVModel: UnwrapRef<typeof import('@vueuse/core')['useVModel']>
     readonly useVModels: UnwrapRef<typeof import('@vueuse/core')['useVModels']>
     readonly useVibrate: UnwrapRef<typeof import('@vueuse/core')['useVibrate']>

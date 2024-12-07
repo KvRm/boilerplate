@@ -15,7 +15,7 @@
     "test:static": "npm run lint"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.34.8"
+    "@sinclair/typebox": "^0.34.11"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.0",

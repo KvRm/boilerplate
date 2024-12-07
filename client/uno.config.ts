@@ -17,6 +17,7 @@ export default defineConfig({
       'flex-v-center': 'flex items-center',
       'flex-h-center': 'flex justify-center',
       'ellipsis': 'overflow-hidden text-ellipsis min-w-0 text-nowrap',
+      'btn-base': 'flex-center rounded hover:bg-grey-100 text-grey-600',
 
       'text-black': 'text-$c-black',
       'text-blue-100': 'text-$c-blue-100',

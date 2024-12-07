@@ -27,8 +27,8 @@ const emit = defineEmits<{
   (e: 'update:page', value: number): void
   (e: 'update:rowsPerPage', value: number): void
   (e: 'update:selected', value: T[]): void
-  (e: 'rowClick', value: T): void
   (e: 'update:order', value: Array<SortingOrderValue | undefined>): void
+  (e: 'rowClick', value: T): void
 }>()
 
 const page = computed<number>({
@@ -151,11 +151,11 @@ function handleOrder(fieldName: string) {
         <span v-else class="skeleton-loading-bg" h-4 w-20 rounded />
 
         <div flex-v-center gap-6>
-          <button :disabled="isLoading || isFirstPage">
-            <div i-ic:baseline-chevron-left h-6 w-6 text-grey-600 @click="prevPage" />
+          <button btn-base :disabled="isLoading || isFirstPage">
+            <div i-ic:baseline-chevron-left h-6 w-6 @click="prevPage" />
           </button>
-          <button :disabled="isLoading || isLastPage">
-            <div i-ic:baseline-chevron-right h-6 w-6 text-grey-600 @click="nextPage" />
+          <button btn-base :disabled="isLoading || isLastPage">
+            <div i-ic:baseline-chevron-right h-6 w-6 @click="nextPage" />
           </button>
         </div>
       </div>
@@ -192,14 +192,16 @@ function handleOrder(fieldName: string) {
     </template>
 
     <template
-      v-for="(column) in columnsValue" :key="column.name"
+      v-for="(column, index) in columnsValue" :key="column.name"
       #[`body-cell-${column.name}`]="{ row, pageIndex, col }"
     >
       <td
         v-bind="getCellProps(col.width)"
         class="text-left"
+        :tabindex="index === 0 ? 0 : 1"
         :style="typeof cellStyle === 'function' ? cellStyle(row) : cellStyle"
         :class="[cellClass, { 'cell-selected': checkIsCellSelected(row) }]"
+        @keypress.enter="$emit('rowClick', row)"
         @click="$emit('rowClick', row)"
       >
         <template v-if="column.name === 'selection'">

@@ -10,7 +10,8 @@ export const campaingStatus = {
 
 export const campaignModel = Type.Object({
   id: Type.Number(),
-  name: Type.String(),
+  name: Type.String({ minLength: 1 }),
+  description: optionalOrNull(Type.String({ minLength: 1 })),
   executedAt: optionalOrNull(Type.Date()),
   status: Type.Enum(campaingStatus),
 
